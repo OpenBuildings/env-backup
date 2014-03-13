@@ -3,9 +3,9 @@
 namespace CL\EnvBackup;
 
 /**
- * @author Ivan Kerin <ikerin@gmail.com>
- * @copyright  (c) 2014 Clippings Ltd.
- * @license    http://spdx.org/licenses/BSD-3-Clause
+ * @author    Ivan Kerin <ikerin@gmail.com>
+ * @copyright (c) 2014 Clippings Ltd.
+ * @license   http://spdx.org/licenses/BSD-3-Clause
  */
 interface Params
 {
@@ -13,14 +13,14 @@ interface Params
      * How to set a value on a parameter
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($name, $value);
 
     /**
      * How to get a parameter
      *
-     * @param  string $name
+     * @param string $name
      */
     public function get($name);
 

@@ -6,9 +6,9 @@ use SplObjectStorage;
 use InvalidArgumentException;
 
 /**
- * @author Ivan Kerin <ikerin@gmail.com>
- * @copyright  (c) 2014 Clippings Ltd.
- * @license    http://spdx.org/licenses/BSD-3-Clause
+ * @author    Ivan Kerin <ikerin@gmail.com>
+ * @copyright (c) 2014 Clippings Ltd.
+ * @license   http://spdx.org/licenses/BSD-3-Clause
  */
 class Env
 {
@@ -45,6 +45,7 @@ class Env
     {
         $this->set($this->backup);
         $this->backup = array();
+
         return $this;
     }
 
@@ -63,8 +64,9 @@ class Env
     /**
      * Backup the parameters and the set them
      *
-     * @param  array  $parameters array of parameters
+     * @param  array            $parameters array of parameters
      * @return CL\EnvBackup\Env $this
+     * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function backupAndSet(array $parameters)
     {
@@ -78,7 +80,7 @@ class Env
     /**
      * Find out which group a variable belongs to
      *
-     * @param  string $name
+     * @param  string                   $name
      * @return CL\EnvBackup\Params
      * @throws InvalidArgumentException If no variable is found
      */
@@ -96,28 +98,32 @@ class Env
     /**
      * Backup the given parameters
      *
-     * @param  array  $parameters the names of the parameters
+     * @param  array            $parameters the names of the parameters
      * @return CL\EnvBackup\Env $this
+     * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function backup(array $parameters)
     {
         foreach ($parameters as $name) {
             $this->backup[$name] = $this->groupForParamName($name)->get($name);
         }
+
         return $this;
     }
 
     /**
      * Set the parameters, using groups
      *
-     * @param array $parameters name => value of parameters
+     * @param  array            $parameters name => value of parameters
      * @return CL\EnvBackup\Env $this
+     * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function set(array $parameters)
     {
         foreach ($parameters as $name => $value) {
             $this->groupForParamName($name)->set($name, $value);
         }
+
         return $this;
     }
 }

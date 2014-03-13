@@ -3,16 +3,16 @@
 namespace CL\EnvBackup;
 
 /**
- * @author Ivan Kerin <ikerin@gmail.com>
- * @copyright  (c) 2014 Clippings Ltd.
- * @license    http://spdx.org/licenses/BSD-3-Clause
+ * @author    Ivan Kerin <ikerin@gmail.com>
+ * @copyright (c) 2014 Clippings Ltd.
+ * @license   http://spdx.org/licenses/BSD-3-Clause
  */
 class GlobalParams implements Params
 {
     /**
      * Set a super global
      * @param string $name
-     * @param array $value
+     * @param array  $value
      */
     public function set($name, $value)
     {

@@ -5,9 +5,9 @@ namespace CL\EnvBackup;
 use ReflectionClass;
 
 /**
- * @author Ivan Kerin <ikerin@gmail.com>
- * @copyright  (c) 2014 Clippings Ltd.
- * @license    http://spdx.org/licenses/BSD-3-Clause
+ * @author    Ivan Kerin <ikerin@gmail.com>
+ * @copyright (c) 2014 Clippings Ltd.
+ * @license   http://spdx.org/licenses/BSD-3-Clause
  */
 class StaticParams implements Params
 {
@@ -15,7 +15,7 @@ class StaticParams implements Params
      * Set a static variable on a class using reflections, will get private / public ones too
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($name, $value)
     {

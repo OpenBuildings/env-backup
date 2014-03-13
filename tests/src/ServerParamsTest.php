@@ -4,7 +4,7 @@ namespace CL\EnvBackup\Test;
 
 use PHPUnit_Framework_TestCase;
 use CL\EnvBackup\ServerParams;
-use CL\EnvBackup\Notset;
+use CL\EnvBackup\NotSet;
 
 
 /**
@@ -24,7 +24,7 @@ class ServerParamsTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('CL\EnvBackup\Notset', $group->get('SOME_VARIABLE'));
 
         $group->set('HOST', 'new host');
-        $group->set('REQUEST_URI', new Notset);
+        $group->set('REQUEST_URI', new NotSet);
 
         $this->assertEquals(array('HOST' => 'new host'), $_SERVER);
 

@@ -3,7 +3,7 @@
 namespace CL\EnvBackup\Test;
 
 use CL\EnvBackup\Params;
-use CL\EnvBackup\Notset;
+use CL\EnvBackup\NotSet;
 
 class DummyParams implements Params
 {
@@ -11,7 +11,7 @@ class DummyParams implements Params
 
     public function set($name, $value)
     {
-        if ($value instanceof Notset) {
+        if ($value instanceof NotSet) {
             unset($this->variables[$name]);
         } else {
             $this->variables[$name] = $value;
@@ -20,7 +20,7 @@ class DummyParams implements Params
 
     public function get($name)
     {
-        return isset($this->variables[$name]) ? $this->variables[$name] : new Notset;
+        return isset($this->variables[$name]) ? $this->variables[$name] : new NotSet;
     }
 
     public function has($name)

@@ -26,8 +26,9 @@ class GlobalParam implements ParamInterface
 
     public function __construct($name, array $value)
     {
-        if ( ! in_array($name, self::$acceptedNames)) {
-            throw new InvalidArgumentException(sprintf('%s is not one of _GET, _POST, _SERVER, _FILES, _COOKIE or _SESSION', $name));
+        if (! in_array($name, self::$acceptedNames)) {
+            $message = sprintf('%s is not one of _GET, _POST, _SERVER, _FILES, _COOKIE or _SESSION', $name);
+            throw new InvalidArgumentException($message);
         }
         $this->name = $name;
         $this->value = $value;

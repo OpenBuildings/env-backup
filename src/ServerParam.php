@@ -52,10 +52,15 @@ class ServerParam implements ParamInterface
         'ORIG_PATH_INFO',
     );
 
+    protected $name;
+    protected $value;
+    protected $backup;
+
     public function __construct($name, $value)
     {
-        if ( ! in_array($name, self::$acceptedNames)) {
-            throw new InvalidArgumentException(sprintf('%s is not a _SERVER index e.g. http://www.php.net/manual/en/reserved.variables.server.php', $name));
+        if (! in_array($name, self::$acceptedNames)) {
+            $message = sprintf('%s is not a _SERVER index e.g. http://www.php.net/manual/en/reserved.variables.server.php', $name);
+            throw new InvalidArgumentException($message);
         }
 
         $this->name = $name;

@@ -17,7 +17,6 @@ Each environment group that you add allows has a unique name of "naming" its var
 Example:
 
 ```php
-
 use CL\EnvBackup\Env;
 use CL\EnvBackup\GlobalParams;
 use CL\EnvBackup\ServerParams;

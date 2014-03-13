@@ -10,29 +10,23 @@ Backup/restore environment variables: globals and static vars
 
 Each environment group that you add allows has a unique name of "naming" its variables so that it knows how to handle their backup
 
- - '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION' are handled by the `GlobalParams`,
- - 'REMOTE\_HOST', 'CLIENT\_IP' and all the other variables inside the '\_SERVER' variable are handled by `ServerParams` (this is used to easily backup restore only sertain variables of the $_SERVER super global)
- - 'SomeClass::$variable' is used to handle static variables by `StaticParams`. It can backup / restore public, protected and private ones
+ - '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION' are handled by the `GlobalParam`,
+ - 'REMOTE\_HOST', 'CLIENT\_IP' and all the other variables inside the '\_SERVER' variable are handled by `ServerParam` (this is used to easily backup restore only sertain variables of the $_SERVER super global)
+ - 'SomeClass::$variable' is used to handle static variables by `StaticParam`. It can backup / restore public, protected and private ones
 
 Example:
 
 ```php
 use CL\EnvBackup\Env;
-use CL\EnvBackup\GlobalParams;
-use CL\EnvBackup\ServerParams;
-use CL\EnvBackup\StaticParams;
+use CL\EnvBackup\GlobalParam;
+use CL\EnvBackup\ServerParam;
+use CL\EnvBackup\StaticParam;
 
-$env = new Env(array(
-	new GlobalParams(),
-	new ServerParams(),
-	new StaticParams(),
-));
-
-$env->backupAndSet(array(
-	'_POST' => array('new stuff'), // Handled by GlobalParams
-	'REMOTE_HOST' => 'example.com', // Handled by ServerParams
-	'MyClass::$private_var' => 10 // Handled by StaticParams
-));
+$env = new Env(
+    new GlobalParam('_POST', array('new post name' => 'val')),
+    new ServerParam('REMOTE_ADDR', '1.1.1.1'),
+    new StaticParam('MyClass', 'private_var', 10)
+);
 
 // Do some stuff that changes / uses these variables
 // ...

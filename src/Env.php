@@ -3,7 +3,6 @@
 namespace CL\EnvBackup;
 
 use SplObjectStorage;
-use InvalidArgumentException;
 
 /**
  * @author    Ivan Kerin <ikerin@gmail.com>
@@ -12,8 +11,7 @@ use InvalidArgumentException;
  */
 class Env
 {
-    protected $groups;
-    protected $backup = array();
+    protected $params;
 
     /**
      * You need to set "groups" to the Env in order for it to work
@@ -21,107 +19,39 @@ class Env
      * @param array $groups     an array of Params objects (can be a key => value array for easier referance later)
      * @param array $parameters initial array of parameters to backup and set
      */
-    public function __construct(array $groups = array(), array $parameters = array())
+    public function __construct()
     {
-        $this->groups = new SplObjectStorage();
+        $this->params = new SplObjectStorage();
 
-        if ($groups) {
-            foreach ($groups as $group) {
-                $this->groups->attach($group);
-            }
-        }
-
-        if ($parameters) {
-            $this->backupAndSet($parameters);
-        }
+        $params = func_get_args();
+        array_walk($params, array($this, 'add'));
     }
 
-    /**
-     * Restores all the variables from the backup, clears the backup (second "restore" will have no effect)
-     *
-     * @return Env $this
-     */
+    public function add(ParamInterface $param)
+    {
+        $this->params->attach($param);
+
+        return $this;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    public function apply()
+    {
+        foreach ($this->params as $param) {
+            $param->apply();
+        }
+
+        return $this;
+    }
+
     public function restore()
     {
-        $this->set($this->backup);
-        $this->backup = array();
-
-        return $this;
-    }
-
-    /**
-     * Getter / Setter of the array of groups
-     *
-     * get a group by key, set a group by key / value or set all of them with an array
-     *
-     * @return SplObjectStorage
-     */
-    public function getGroups()
-    {
-        return $this->groups;
-    }
-
-    /**
-     * Backup the parameters and the set them
-     *
-     * @param  array                    $parameters array of parameters
-     * @return Env                      $this
-     * @throws InvalidArgumentException If there is parameter for which a group does not exist
-     */
-    public function backupAndSet(array $parameters)
-    {
-        $this
-            ->backup(array_keys($parameters))
-            ->set($parameters);
-
-        return $this;
-    }
-
-    /**
-     * Find out which group a variable belongs to
-     *
-     * @param  string                   $name
-     * @return Params
-     * @throws InvalidArgumentException If no variable is found
-     */
-    public function groupForParamName($name)
-    {
-        foreach ($this->groups as $params) {
-            if ($params->has($name)) {
-                return $params;
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf("Environment variable %s does not belong to any group", $name));
-    }
-
-    /**
-     * Backup the given parameters
-     *
-     * @param  array                    $parameters the names of the parameters
-     * @return Env                      $this
-     * @throws InvalidArgumentException If there is parameter for which a group does not exist
-     */
-    public function backup(array $parameters)
-    {
-        foreach ($parameters as $name) {
-            $this->backup[$name] = $this->groupForParamName($name)->get($name);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set the parameters, using groups
-     *
-     * @param  array                    $parameters name => value of parameters
-     * @return Env                      $this
-     * @throws InvalidArgumentException If there is parameter for which a group does not exist
-     */
-    public function set(array $parameters)
-    {
-        foreach ($parameters as $name => $value) {
-            $this->groupForParamName($name)->set($name, $value);
+        foreach ($this->params as $param) {
+            $param->restore();
         }
 
         return $this;

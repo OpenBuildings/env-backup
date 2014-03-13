@@ -3,9 +3,9 @@
 namespace CL\EnvBackup\Test;
 
 use PHPUnit_Framework_TestCase;
-use CL\EnvBackup\StaticParams;
+use CL\EnvBackup\StaticParam;
 
-class StaticParamsDummy
+class StaticParamDummy
 {
     public static $varPublic       = 'value 1';
     protected static $varProtected = 'value 2';
@@ -26,30 +26,77 @@ class StaticParamsDummy
  * @group   env
  * @group   env.static_params
  */
-class StaticParamsTest extends PHPUnit_Framework_TestCase
+class StaticParamTest extends PHPUnit_Framework_TestCase
 {
-    public function test_methods()
+    public function dataConstruct()
     {
-        $group = new StaticParams;
+        return array(
+            array('CL\EnvBackup\Test\StaticParamDummy', 'varPublic', 'new value 1', 'value 1', FALSE),
+            array('CL\EnvBackup\Test\StaticParamDummy', 'varProtected', 'new value 2', 'value 2', FALSE),
+            array('CL\EnvBackup\Test\StaticParamDummy', 'varPrivate', 'new value 3', 'value 3', FALSE),
+            array('CL\EnvBackup\Test\StaticParamDummy', 'unknownVal', 'new value 4', 'value 4', TRUE),
+        );
+    }
 
-        $this->assertEquals('value 1', $group->get('CL\EnvBackup\Test\StaticParamsDummy::$varPublic'));
-        $this->assertEquals('value 2', $group->get('CL\EnvBackup\Test\StaticParamsDummy::$varProtected'));
-        $this->assertEquals('value 3', $group->get('CL\EnvBackup\Test\StaticParamsDummy::$varPrivate'));
+    /**
+     * @dataProvider dataConstruct
+     * @covers CL\EnvBackup\StaticParam::__construct
+     * @covers CL\EnvBackup\StaticParam::getProperty
+     * @covers CL\EnvBackup\StaticParam::getValue
+     */
+    public function testConstruct($class, $property, $new_value, $value, $is_invalid_argument)
+    {
+        if ($is_invalid_argument) {
+            $this->setExpectedException('ReflectionException');
+        }
 
-        $group->set('CL\EnvBackup\Test\StaticParamsDummy::$varPublic', 'new 1');
-        $group->set('CL\EnvBackup\Test\StaticParamsDummy::$varProtected', 'new 2');
-        $group->set('CL\EnvBackup\Test\StaticParamsDummy::$varPrivate', 'new 3');
+        $param = new StaticParam($class, $property, $new_value);
 
-        $this->assertEquals('new 1', StaticParamsDummy::$varPublic);
-        $this->assertEquals('new 2', StaticParamsDummy::getVarProtected());
-        $this->assertEquals('new 3', StaticParamsDummy::getVarPrivate());
+        $this->assertInstanceOf('ReflectionProperty', $param->getProperty());
+        $this->assertEquals($new_value, $param->getValue());
+        $this->assertEquals($value, $param->getProperty()->getValue());
+        $this->assertEquals($property, $param->getProperty()->getName());
+    }
 
-        $this->assertEquals('new 1', $group->get('CL\EnvBackup\Test\StaticParamsDummy::$varPublic'));
-        $this->assertEquals('new 2', $group->get('CL\EnvBackup\Test\StaticParamsDummy::$varProtected'));
-        $this->assertEquals('new 3', $group->get('CL\EnvBackup\Test\StaticParamsDummy::$varPrivate'));
+    /**
+     * @covers CL\EnvBackup\StaticParam::apply
+     * @covers CL\EnvBackup\StaticParam::restore
+     * @covers CL\EnvBackup\StaticParam::getBackup
+     */
+    public function testApplyRestore()
+    {
+        $expected1 = 'new val 1';
+        $expected2 = 'new val 2';
+        $expected3 = 'new val 3';
 
-        $this->assertTrue($group->has('CL\EnvBackup\Test\StaticParamsDummy::$varPublic'));
-        $this->assertTrue($group->has('Env::$some'));
-        $this->assertFalse($group->has('other variable'));
+        $original1 = StaticParamDummy::$varPublic;
+        $original2 = StaticParamDummy::getVarProtected();
+        $original3 = StaticParamDummy::getVarPrivate();
+
+        $param1 = new StaticParam('CL\EnvBackup\Test\StaticParamDummy', 'varPublic', $expected1);
+        $param2 = new StaticParam('CL\EnvBackup\Test\StaticParamDummy', 'varProtected', $expected2);
+        $param3 = new StaticParam('CL\EnvBackup\Test\StaticParamDummy', 'varPrivate', $expected3);
+
+        $param1->apply();
+        $param2->apply();
+        $param3->apply();
+
+        $this->assertEquals($expected1, StaticParamDummy::$varPublic);
+        $this->assertEquals($expected2, StaticParamDummy::getVarProtected());
+        $this->assertEquals($expected3, StaticParamDummy::getVarPrivate());
+
+        $this->assertEquals($original1, $param1->getBackup());
+        $this->assertEquals($original2, $param2->getBackup());
+        $this->assertEquals($original3, $param3->getBackup());
+
+        StaticParamDummy::$varPublic = '11111';
+
+        $param1->restore();
+        $param2->restore();
+        $param3->restore();
+
+        $this->assertEquals($original1, StaticParamDummy::$varPublic);
+        $this->assertEquals($original2, StaticParamDummy::getVarProtected());
+        $this->assertEquals($original3, StaticParamDummy::getVarPrivate());
     }
 }

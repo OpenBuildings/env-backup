@@ -10,50 +10,74 @@ use PHPUnit_Framework_TestCase;
  */
 class EnvTest extends PHPUnit_Framework_TestCase
 {
-    public function testConstruct()
+    /**
+     * @covers CL\EnvBackup\Env::__construct
+     */
+    public function testConsturct()
     {
-        $params = new DummyParams;
+        $param1 = new DummyParam();
+        $param2 = new DummyParam();
 
-        $existing_env = array(
-            'test_existing_key' => 'some value'
-        );
+        $env = new Env($param1, $param2);
 
-        $expected_env = array(
-            'test_key' => 'test value',
-            'test_existing_key' => 'new value',
-        );
-
-        $params->variables = $existing_env;
-
-        $env = new Env(array($params), $expected_env);
-
-        $this->assertCount(1, $env->getGroups());
-        $this->assertTrue($env->getGroups()->contains($params));
-        $this->assertContains($params, $env->getGroups());
-
-        $this->assertEquals($expected_env, $params->variables, 'Should set the variables when created with parameters');
-
-        $env->restore();
-
-        $this->assertEquals($existing_env, $params->variables, 'Should restore variables to original state');
-
-        $env->backup(array('test_existing_key'));
-
-        $this->assertEquals($existing_env, $params->variables, 'Backup should not affect variables');
-
-        $env->set(array('test_existing_key' => 'new value'));
-
-        $this->assertEquals(array('test_existing_key' => 'new value'), $params->variables);
-
-        $env->restore();
-
-        $this->assertEquals($existing_env, $params->variables);
-
-        $this->assertSame($params, $env->groupForParamName('test_key'));
-
-        $this->setExpectedException('\InvalidArgumentException');
-
-        $env->groupForParamName('not_test');
+        $this->assertCount(2, $env->getParams());
+        $this->assertContains($param1, $env->getParams());
+        $this->assertContains($param2, $env->getParams());
     }
 
+    /**
+     * @covers CL\EnvBackup\Env::add
+     * @covers CL\EnvBackup\Env::getParams
+     */
+    public function testAdd()
+    {
+        $param1 = new DummyParam();
+        $param2 = new DummyParam();
+
+        $env = new Env();
+        $env->add($param1);
+        $env->add($param2);
+
+        $this->assertCount(2, $env->getParams());
+        $this->assertContains($param1, $env->getParams());
+        $this->assertContains($param2, $env->getParams());
+    }
+
+    /**
+     * @covers CL\EnvBackup\Env::apply
+     */
+    public function testApply()
+    {
+        $param1 = $this->getMock('CL\EnvBackup\Test\DummyParam', array('apply'));
+        $param1
+            ->expects($this->once())
+            ->method('apply');
+
+        $param2 = $this->getMock('CL\EnvBackup\Test\DummyParam', array('apply'));
+        $param2
+            ->expects($this->once())
+            ->method('apply');
+
+        $env = new Env($param1, $param2);
+        $env->apply();
+    }
+
+    /**
+     * @covers CL\EnvBackup\Env::restore
+     */
+    public function testRestore()
+    {
+        $param1 = $this->getMock('CL\EnvBackup\Test\DummyParam', array('restore'));
+        $param1
+            ->expects($this->once())
+            ->method('restore');
+
+        $param2 = $this->getMock('CL\EnvBackup\Test\DummyParam', array('restore'));
+        $param2
+            ->expects($this->once())
+            ->method('restore');
+
+        $env = new Env($param1, $param2);
+        $env->restore();
+    }
 }

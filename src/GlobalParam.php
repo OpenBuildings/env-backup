@@ -24,6 +24,10 @@ class GlobalParam implements ParamInterface
         '_SESSION',
     );
 
+    /**
+     * @param string $name
+     * @param array  $value
+     */
     public function __construct($name, array $value)
     {
         if (! in_array($name, self::$acceptedNames)) {
@@ -34,25 +38,32 @@ class GlobalParam implements ParamInterface
         $this->value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return array
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @return array
+     */
     public function getBackup()
     {
         return $this->backup;
     }
 
     /**
-     * Set a super global
-     * @param  string $name
-     * @param  array  $value
+     * Set parameter
      * @return void
      */
     public function apply()
@@ -65,9 +76,8 @@ class GlobalParam implements ParamInterface
     }
 
     /**
-     * Get a super global
-     * @param  string $name
-     * @return array
+     * Restore the previous value
+     * @return void
      */
     public function restore()
     {

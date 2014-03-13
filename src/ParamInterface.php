@@ -10,15 +10,13 @@ namespace CL\EnvBackup;
 interface ParamInterface
 {
     /**
-     * How to set a value on a parameter
-     *
+     * Set parameter
      * @return void
      */
     public function apply();
 
     /**
-     * How to get a parameter
-     *
+     * Restore the previous value
      * @return void
      */
     public function restore();

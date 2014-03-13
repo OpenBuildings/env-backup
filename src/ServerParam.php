@@ -56,10 +56,14 @@ class ServerParam implements ParamInterface
     protected $value;
     protected $backup;
 
+    /**
+     * @param string $name
+     * @param string $value
+     */
     public function __construct($name, $value)
     {
         if (! in_array($name, self::$acceptedNames)) {
-            $message = sprintf('%s is not a _SERVER index e.g. http://www.php.net/manual/en/reserved.variables.server.php', $name);
+            $message = sprintf('%s is not a _SERVER index', $name);
             throw new InvalidArgumentException($message);
         }
 
@@ -67,27 +71,44 @@ class ServerParam implements ParamInterface
         $this->value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @return string
+     */
     public function getBackup()
     {
         return $this->backup;
     }
 
+    /**
+     * Set parameter
+     * @return void
+     */
     public function apply()
     {
         $this->backup = isset($_SERVER[$this->name]) ? $_SERVER[$this->name] : new NotSet();
         $_SERVER[$this->name] = $this->value;
     }
 
+    /**
+     * Restore the previous value
+     * @return void
+     */
     public function restore()
     {
         if ($this->backup instanceof NotSet) {

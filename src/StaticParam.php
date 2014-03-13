@@ -18,7 +18,7 @@ class StaticParam implements ParamInterface
     /**
      * @param string $class
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function __construct($class, $name, $value)
     {

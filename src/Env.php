@@ -16,8 +16,6 @@ class Env
     /**
      * You need to set "groups" to the Env in order for it to work
      *
-     * @param array $groups     an array of Params objects (can be a key => value array for easier referance later)
-     * @param array $parameters initial array of parameters to backup and set
      */
     public function __construct()
     {

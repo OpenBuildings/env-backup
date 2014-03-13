@@ -6,13 +6,13 @@ Env Backup
 [![Code Coverage](https://scrutinizer-ci.com/g/clippings/env-backup/badges/coverage.png?s=bf4be88c910271150acc5fb0ce2bd1d0585ea524)](https://scrutinizer-ci.com/g/clippings/env-backup/)
 [![Latest Stable Version](https://poser.pugx.org/clippings/env-backup/v/stable.png)](https://packagist.org/packages/clippings/env-backup)
 
-Backup/restore environment variables: globals, static vars, kohana configs
+Backup/restore environment variables: globals and static vars
 
 Each environment group that you add allows has a unique name of "naming" its variables so that it knows how to handle their backup
 
- - '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION' are handled by the 'GlobalParams',
- - 'REMOTE\_HOST', 'CLIENT\_IP' and all the other variables inside the '\_SERVER' variable are handled by ServerParams (this is used to easily backup restore only sertain variables of the $_SERVER super global)
- - 'SomeClass::$variable' is used to handle stativ variables - it can backup / restore public, protected and private ones by StaticParams
+ - '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION' are handled by the `GlobalParams`,
+ - 'REMOTE\_HOST', 'CLIENT\_IP' and all the other variables inside the '\_SERVER' variable are handled by `ServerParams` (this is used to easily backup restore only sertain variables of the $_SERVER super global)
+ - 'SomeClass::$variable' is used to handle static variables by `StaticParams`. It can backup / restore public, protected and private ones
 
 Example:
 
@@ -29,12 +29,13 @@ $env = new Env(array(
 ));
 
 $env->backupAndSet(array(
-	'_POST' => array('new stuff'),
-	'REMOTE_HOST' => 'example.com',
-	'MyClass::$private_var' => 10
+	'_POST' => array('new stuff'), // Handled by GlobalParams
+	'REMOTE_HOST' => 'example.com', // Handled by ServerParams
+	'MyClass::$private_var' => 10 // Handled by StaticParams
 ));
 
 // Do some stuff that changes / uses these variables
+// ...
 
 $env->restore();
 ```

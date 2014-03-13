@@ -23,8 +23,8 @@ class StaticParams implements Params
 
         $class = new ReflectionClass($class);
         $property = $class->getProperty($name);
-        $property->setAccessible(TRUE);
-        $property->setValue(NULL, $value);
+        $property->setAccessible(true);
+        $property->setValue(null, $value);
     }
 
     /**
@@ -39,7 +39,7 @@ class StaticParams implements Params
 
         $class = new ReflectionClass($class);
         $property = $class->getProperty($name);
-        $property->setAccessible(TRUE);
+        $property->setAccessible(true);
 
         return $property->getValue();
     }
@@ -52,6 +52,6 @@ class StaticParams implements Params
      */
     public function has($name)
     {
-        return strpos($name, '::$') !== FALSE;
+        return strpos($name, '::$') !== false;
     }
 }

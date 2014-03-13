@@ -43,6 +43,6 @@ class ServerParams implements Params
      */
     public function has($name)
     {
-        return (preg_match('/^[A-Z_-]+$/', $name) OR isset($_SERVER[$name]));
+        return (preg_match('/^[A-Z_-]+$/', $name) or isset($_SERVER[$name]));
     }
 }

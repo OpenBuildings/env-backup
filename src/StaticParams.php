@@ -16,6 +16,7 @@ class StaticParams implements Params
      *
      * @param string $name
      * @param mixed  $value
+     * @return void
      */
     public function set($name, $value)
     {
@@ -24,7 +25,7 @@ class StaticParams implements Params
         $class = new ReflectionClass($class);
         $property = $class->getProperty($name);
         $property->setAccessible(true);
-        $property->setValue(null, $value);
+        $property->setValue($value);
     }
 
     /**

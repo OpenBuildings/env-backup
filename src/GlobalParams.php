@@ -13,6 +13,7 @@ class GlobalParams implements Params
      * Set a super global
      * @param string $name
      * @param array  $value
+     * @return void
      */
     public function set($name, $value)
     {

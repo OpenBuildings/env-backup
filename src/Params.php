@@ -14,6 +14,7 @@ interface Params
      *
      * @param string $name
      * @param mixed  $value
+     * @return void
      */
     public function set($name, $value);
 

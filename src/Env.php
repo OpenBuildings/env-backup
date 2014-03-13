@@ -54,7 +54,7 @@ class Env
      *
      * get a group by key, set a group by key / value or set all of them with an array
      *
-     * @return CL\EnvBackup\Params
+     * @return SplObjectStorage
      */
     public function getGroups()
     {
@@ -65,7 +65,7 @@ class Env
      * Backup the parameters and the set them
      *
      * @param  array                    $parameters array of parameters
-     * @return CL\EnvBackup\Env         $this
+     * @return Env                      $this
      * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function backupAndSet(array $parameters)
@@ -81,7 +81,7 @@ class Env
      * Find out which group a variable belongs to
      *
      * @param  string                   $name
-     * @return CL\EnvBackup\Params
+     * @return Params
      * @throws InvalidArgumentException If no variable is found
      */
     public function groupForParamName($name)
@@ -99,7 +99,7 @@ class Env
      * Backup the given parameters
      *
      * @param  array                    $parameters the names of the parameters
-     * @return CL\EnvBackup\Env         $this
+     * @return Env                      $this
      * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function backup(array $parameters)
@@ -115,7 +115,7 @@ class Env
      * Set the parameters, using groups
      *
      * @param  array                    $parameters name => value of parameters
-     * @return CL\EnvBackup\Env         $this
+     * @return Env                      $this
      * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function set(array $parameters)

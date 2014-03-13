@@ -14,8 +14,8 @@ class StaticParams implements Params
     /**
      * Set a static variable on a class using reflections, will get private / public ones too
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
     public function set($name, $value)

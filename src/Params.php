@@ -12,8 +12,8 @@ interface Params
     /**
      * How to set a value on a parameter
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
     public function set($name, $value);

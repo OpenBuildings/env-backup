@@ -12,8 +12,8 @@ class ServerParams implements Params
     /**
      * Set a variable to on the $_SERVER super global, if NotSet object is passed - unset it
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
     public function set($name, $value)

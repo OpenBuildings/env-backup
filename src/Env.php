@@ -39,7 +39,7 @@ class Env
     /**
      * Restores all the variables from the backup, clears the backup (second "restore" will have no effect)
      *
-     * @return Environment $this
+     * @return Env $this
      */
     public function restore()
     {

@@ -6,7 +6,6 @@ use PHPUnit_Framework_TestCase;
 use CL\EnvBackup\ServerParams;
 use CL\EnvBackup\NotSet;
 
-
 /**
  * @group   env
  * @group   env.server_params

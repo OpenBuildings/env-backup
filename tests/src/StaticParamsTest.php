@@ -4,7 +4,6 @@ namespace CL\EnvBackup\Test;
 
 use PHPUnit_Framework_TestCase;
 use CL\EnvBackup\StaticParams;
-use CL\EnvBackup\Notset;
 
 class StaticParamsDummy
 {

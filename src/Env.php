@@ -64,8 +64,8 @@ class Env
     /**
      * Backup the parameters and the set them
      *
-     * @param  array            $parameters array of parameters
-     * @return CL\EnvBackup\Env $this
+     * @param  array                    $parameters array of parameters
+     * @return CL\EnvBackup\Env         $this
      * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function backupAndSet(array $parameters)
@@ -98,8 +98,8 @@ class Env
     /**
      * Backup the given parameters
      *
-     * @param  array            $parameters the names of the parameters
-     * @return CL\EnvBackup\Env $this
+     * @param  array                    $parameters the names of the parameters
+     * @return CL\EnvBackup\Env         $this
      * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function backup(array $parameters)
@@ -114,8 +114,8 @@ class Env
     /**
      * Set the parameters, using groups
      *
-     * @param  array            $parameters name => value of parameters
-     * @return CL\EnvBackup\Env $this
+     * @param  array                    $parameters name => value of parameters
+     * @return CL\EnvBackup\Env         $this
      * @throws InvalidArgumentException If there is parameter for which a group does not exist
      */
     public function set(array $parameters)

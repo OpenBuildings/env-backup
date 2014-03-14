@@ -8,11 +8,11 @@ Env Backup
 
 Backup/restore environment variables: globals and static vars
 
-Each environment group that you add allows has a unique name of "naming" its variables so that it knows how to handle their backup
+You can add "Parameters" to the environment, each "applying" and "restoring" a specific super global or static property of a class
 
- - '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION' are handled by the `GlobalParam`,
- - 'REMOTE\_HOST', 'CLIENT\_IP' and all the other variables inside the '\_SERVER' variable are handled by `ServerParam` (this is used to easily backup restore only sertain variables of the $_SERVER super global)
- - 'SomeClass::$variable' is used to handle static variables by `StaticParam`. It can backup / restore public, protected and private ones
+ - `GlobalParam` - used for setting / restoring '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION'
+ - `ServerParam` - used specifically for '\_SERVER' super global so you can set / restore only some of its contents, e.g. REMOTE\_HOST', 'CLIENT\_IP ...
+ - `StaticParam` - used for setting / restoring static properties of classes, it can handle protected and privete ones too.
 
 Example:
 
@@ -22,11 +22,11 @@ use CL\EnvBackup\GlobalParam;
 use CL\EnvBackup\ServerParam;
 use CL\EnvBackup\StaticParam;
 
-$env = new Env([
+$env = new Env(array(
     new GlobalParam('_POST', array('new post name' => 'val')),
     new ServerParam('REMOTE_ADDR', '1.1.1.1'),
     new StaticParam('MyClass', 'private_var', 10)
-]);
+));
 
 // Do some stuff that changes / uses these variables
 // ...

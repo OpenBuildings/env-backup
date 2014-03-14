@@ -5,13 +5,21 @@ namespace CL\EnvBackup;
 use InvalidArgumentException;
 
 /**
+ * This param deals specifically with the _SERVER super global
+ * You can modify arbitrary parameters of it.
+ *
  * @author    Ivan Kerin <ikerin@gmail.com>
  * @copyright (c) 2014 Clippings Ltd.
  * @license   http://spdx.org/licenses/BSD-3-Clause
  */
 class ServerParam implements ParamInterface
 {
-
+    /**
+     * Taken from http://www.php.net/manual/en/reserved.variables.server.php
+     *
+     * @link http://www.php.net/manual/en/reserved.variables.server.php
+     * @var array
+     */
     public static $acceptedNames = array(
         'GATEWAY_INTERFACE',
         'SERVER_ADDR',
@@ -52,8 +60,22 @@ class ServerParam implements ParamInterface
         'ORIG_PATH_INFO',
     );
 
+    /**
+     * The name of the value inside _SERVER array
+     * @var string
+     */
     protected $name;
+
+    /**
+     * The value that should be set to a _SERVER value
+     * @var string
+     */
     protected $value;
+
+    /**
+     * What the value was before this param was applied
+     * @var string
+     */
     protected $backup;
 
     /**
@@ -63,7 +85,7 @@ class ServerParam implements ParamInterface
     public function __construct($name, $value)
     {
         if (! in_array($name, self::$acceptedNames)) {
-            $message = sprintf('%s is not a _SERVER index', $name);
+            $message = sprintf('%s is not a _SERVER index, must be one of ServerParam::$asceptedNames', $name);
             throw new InvalidArgumentException($message);
         }
 

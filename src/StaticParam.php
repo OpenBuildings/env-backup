@@ -5,14 +5,27 @@ namespace CL\EnvBackup;
 use ReflectionProperty;
 
 /**
+ * Using this param you can set static variables to classes, even if they ar protected / private
+ *
  * @author    Ivan Kerin <ikerin@gmail.com>
  * @copyright (c) 2014 Clippings Ltd.
  * @license   http://spdx.org/licenses/BSD-3-Clause
  */
 class StaticParam implements ParamInterface
 {
+    /**
+     * @var ReflectionProperty
+     */
     protected $property;
+
+    /**
+     * @var mixed
+     */
     protected $backup;
+
+    /**
+     * @var mixed
+     */
     protected $value;
 
     /**

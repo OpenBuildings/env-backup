@@ -4,8 +4,8 @@ namespace CL\EnvBackup;
 
 /**
  * This class is used to denote an 'not set' varible.
- * If a parameter was not present at all before a ->set() call we use this class to remember that,
- * and later on '->restore()' the parameter is restored to its previous state e.g. 'not present'
+ * If a parameter was not present at all before a ->apply() call we use this class to remember that,
+ * and later on '->restore()' the parameter is restored to its previous state e.g. 'not set'
  *
  * @author    Ivan Kerin <ikerin@gmail.com>
  * @copyright (c) 2014 Clippings Ltd.

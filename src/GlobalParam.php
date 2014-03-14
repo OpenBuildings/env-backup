@@ -5,6 +5,8 @@ namespace CL\EnvBackup;
 use InvalidArgumentException;
 
 /**
+ * This param deals with PHP's super globals (_POST, _GET etc.)
+ *
  * @author    Ivan Kerin <ikerin@gmail.com>
  * @copyright (c) 2014 Clippings Ltd.
  * @license   http://spdx.org/licenses/BSD-3-Clause

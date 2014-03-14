@@ -22,11 +22,11 @@ use CL\EnvBackup\GlobalParam;
 use CL\EnvBackup\ServerParam;
 use CL\EnvBackup\StaticParam;
 
-$env = new Env(
+$env = new Env([
     new GlobalParam('_POST', array('new post name' => 'val')),
     new ServerParam('REMOTE_ADDR', '1.1.1.1'),
     new StaticParam('MyClass', 'private_var', 10)
-);
+]);
 
 // Do some stuff that changes / uses these variables
 // ...

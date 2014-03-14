@@ -18,7 +18,7 @@ class EnvTest extends PHPUnit_Framework_TestCase
         $param1 = new DummyParam();
         $param2 = new DummyParam();
 
-        $env = new Env($param1, $param2);
+        $env = new Env([$param1, $param2]);
 
         $this->assertCount(2, $env->getParams());
         $this->assertContains($param1, $env->getParams());
@@ -58,7 +58,7 @@ class EnvTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('apply');
 
-        $env = new Env($param1, $param2);
+        $env = new Env([$param1, $param2]);
         $env->apply();
     }
 
@@ -77,7 +77,7 @@ class EnvTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('restore');
 
-        $env = new Env($param1, $param2);
+        $env = new Env([$param1, $param2]);
         $env->restore();
     }
 }

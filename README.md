@@ -13,6 +13,7 @@ You can add "Parameters" to the environment, each "applying" and "restoring" a s
  - `GlobalParam` - used for setting / restoring '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION'
  - `ServerParam` - used specifically for '\_SERVER' super global so you can set / restore only some of its contents, e.g. REMOTE\_HOST', 'CLIENT\_IP ...
  - `StaticParam` - used for setting / restoring static properties of classes, it can handle protected and privete ones too.
+ - `FileParam`   - used for setting / restoring files and their contents. Ensures a sertian file and its content are present, and restore previous state
 
 Example:
 
@@ -26,6 +27,7 @@ $env = new Env(array(
     new GlobalParam('_POST', array('new post name' => 'val')),
     new ServerParam('REMOTE_ADDR', '1.1.1.1'),
     new StaticParam('MyClass', 'private_var', 10)
+    new FileParam('/path/to/file', 'file content')
 ));
 
 $env->apply();

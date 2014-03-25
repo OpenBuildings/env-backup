@@ -28,6 +28,8 @@ $env = new Env(array(
     new StaticParam('MyClass', 'private_var', 10)
 ));
 
+$env->apply();
+
 // Do some stuff that changes / uses these variables
 // ...
 

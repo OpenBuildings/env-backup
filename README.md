@@ -34,6 +34,18 @@ $env = new Env(array(
 $env->restore();
 ```
 
+ServerParam in CLI
+------------------
+
+In CLI environment, $\_SERVER variables are very different than if the script is run by apache or cgi. If you want to use env-backup in such an environment, you can pass ServerParam::CLI like this:
+
+```php
+$env = new Env(array(
+    new ServerParam('HOME', '/test/home', ServerParam::CLI),
+    new ServerParam('argc', 4, ServerParam::CLI),
+));
+```
+
 ## License
 
 Copyright (c) 2014, Clippings Ltd. Developed by Ivan Kerin as part of [clippings.com](http://clippings.com)

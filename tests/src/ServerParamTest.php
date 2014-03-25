@@ -12,12 +12,34 @@ use CL\EnvBackup\NotSet;
  */
 class ServerParamTest extends PHPUnit_Framework_TestCase
 {
+    public function dataAcceptedNamesByType()
+    {
+        return array(
+            array(ServerParam::BROWSER, ServerParam::$acceptedBrowserNames),
+            array(ServerParam::CLI, ServerParam::$acceptedCliNames),
+            array('test', null),
+        );
+    }
+
+    /**
+     * @dataProvider dataAcceptedNamesByType
+     * @covers CL\EnvBackup\ServerParam::acceptedNamesByType
+     */
+    public function testAcceptedNamesByType($type, $expected)
+    {
+        $names = ServerParam::acceptedNamesByType($type);
+
+        $this->assertEquals($expected, $names);
+    }
+
     public function dataConstruct()
     {
         return array(
-            array('GATEWAY_INTERFACE', 'interface', FALSE),
-            array('REQUEST_TIME', 'time', FALSE),
-            array('_SOMETHING', 'time', TRUE),
+            array('GATEWAY_INTERFACE', 'interface', ServerParam::BROWSER, FALSE),
+            array('REQUEST_TIME', 'time', ServerParam::BROWSER, FALSE),
+            array('_SOMETHING', 'time', ServerParam::BROWSER, TRUE),
+            array('HOME', 'time', ServerParam::BROWSER, TRUE),
+            array('HOME', 'time', ServerParam::CLI, FALSE),
         );
     }
 
@@ -27,13 +49,13 @@ class ServerParamTest extends PHPUnit_Framework_TestCase
      * @covers CL\EnvBackup\ServerParam::getName
      * @covers CL\EnvBackup\ServerParam::getValue
      */
-    public function testConstruct($name, $value, $is_invalid_argument)
+    public function testConstruct($name, $value, $type, $is_invalid_argument)
     {
         if ($is_invalid_argument) {
             $this->setExpectedException('InvalidArgumentException');
         }
 
-        $param = new ServerParam($name, $value);
+        $param = new ServerParam($name, $value, $type);
 
         $this->assertEquals($name, $param->getName());
         $this->assertEquals($value, $param->getValue());

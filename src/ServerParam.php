@@ -14,13 +14,16 @@ use InvalidArgumentException;
  */
 class ServerParam implements ParamInterface
 {
+    const BROWSER = 1;
+    const CLI = 2;
+
     /**
      * Taken from http://www.php.net/manual/en/reserved.variables.server.php
      *
      * @link http://www.php.net/manual/en/reserved.variables.server.php
      * @var array
      */
-    public static $acceptedNames = array(
+    public static $acceptedBrowserNames = array(
         'GATEWAY_INTERFACE',
         'SERVER_ADDR',
         'SERVER_NAME',
@@ -60,6 +63,44 @@ class ServerParam implements ParamInterface
         'ORIG_PATH_INFO',
     );
 
+    public static $acceptedCliNames = array(
+        'MANPATH',
+        'TERM',
+        'SHELL',
+        'SSH_CLIENT',
+        'OLDPWD',
+        'SSH_TTY',
+        'USER',
+        'MAIL',
+        'PATH',
+        'PWD',
+        'SHLVL',
+        'HOME',
+        'LOGNAME',
+        'SSH_CONNECTION',
+        '_',
+        '__CF_USER_TEXT_ENCODING',
+        'PHP_SELF',
+        'SCRIPT_NAME',
+        'SCRIPT_FILENAME',
+        'PATH_TRANSLATED',
+        'DOCUMENT_ROOT',
+        'REQUEST_TIME',
+        'argv',
+        'argc'
+    );
+
+    public static function acceptedNamesByType($type)
+    {
+        switch ($type) {
+            case self::BROWSER:
+                return self::$acceptedBrowserNames;
+
+            case self::CLI:
+                return self::$acceptedCliNames;
+        }
+    }
+
     /**
      * The name of the value inside _SERVER array
      * @var string
@@ -82,10 +123,10 @@ class ServerParam implements ParamInterface
      * @param string $name
      * @param string $value
      */
-    public function __construct($name, $value)
+    public function __construct($name, $value, $type = self::BROWSER)
     {
-        if (! in_array($name, self::$acceptedNames)) {
-            $message = sprintf('%s is not a _SERVER index, must be one of ServerParam::$asceptedNames', $name);
+        if (! in_array($name, self::acceptedNamesByType($type))) {
+            $message = sprintf('%s is not a _SERVER variable, or using wrong type', $name);
             throw new InvalidArgumentException($message);
         }
 

@@ -5,6 +5,11 @@ php:
   - 5.4
   - 5.5
 
+notifications:
+  email: false
+  slack:
+    secure: H3CLvJ4/VHg1+LUPmnZAV1p4SeLjkY/fCWDFHDhdZEv7FyxAnk4Q3lSS0ExbXpQ4qo2KLIpyFr9ASjti5BHcXIr5Wb/stq+70aIp6WRAH8gsbo/y4MShhPDKpc43UDKC+/9mbxWT4DjJpPevNN800AjZZbzyWUfle0KLj9XW1OU=
+
 before_install:
   - composer selfupdate
 

@@ -6,9 +6,9 @@ Env Backup
 [![Code Coverage](https://scrutinizer-ci.com/g/clippings/env-backup/badges/coverage.png?s=bf4be88c910271150acc5fb0ce2bd1d0585ea524)](https://scrutinizer-ci.com/g/clippings/env-backup/)
 [![Latest Stable Version](https://poser.pugx.org/clippings/env-backup/v/stable.png)](https://packagist.org/packages/clippings/env-backup)
 
-Backup/restore environment variables: globals and static vars
+Backup/restore environment variables: globals and static vars. This is very useful for initializing environmonet for a test. Keep the current state of the environment from interfiering with other tests.
 
-You can add "Parameters" to the environment, each "applying" and "restoring" a specific super global or static property of a class
+You can add "Parameters" to the environment, each "applying" and "restoring" a specific super global or static property of a class, you can even keep a precice state of the filesystem.
 
  - `GlobalParam` - used for setting / restoring '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION'
  - `ServerParam` - used specifically for '\_SERVER' super global so you can set / restore only some of its contents, e.g. REMOTE\_HOST', 'CLIENT\_IP ...

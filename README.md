@@ -12,8 +12,9 @@ You can add "Parameters" to the environment, each "applying" and "restoring" a s
 
  - `GlobalParam` - used for setting / restoring '\_POST', '\_GET', '\_FILES', '\_SERVER', '\_COOKIE' and '\_SESSION'
  - `ServerParam` - used specifically for '\_SERVER' super global so you can set / restore only some of its contents, e.g. REMOTE\_HOST', 'CLIENT\_IP ...
- - `StaticParam` - used for setting / restoring static properties of classes, it can handle protected and privete ones too.
- - `FileParam`   - used for setting / restoring files and their contents. Ensures a sertian file and its content are present, and restore previous state
+ - `StaticParam` - used for setting / restoring static properties of classes, it can handle protected and private ones too.
+ - `FileParam`   - used for setting / restoring files and their contents. Ensures a certain file and its content are present, and restore previous state
+ - `DirectoryParam` - used for setting / restoring a whole dir with all of its contents. Ensures a certain dir and its content are present, and restore previous state
 
 Example:
 
@@ -28,6 +29,13 @@ $env = new Env(array(
     new ServerParam('REMOTE_ADDR', '1.1.1.1'),
     new StaticParam('MyClass', 'private_var', 10)
     new FileParam('/path/to/file', 'file content')
+    new DirectoryParam('/path/to/dir', array(
+        'file1.txt' => 'file contents',
+        'inner_dir' => array(
+            'inner_file1.csv' => 'a, b',
+            'inner_file2.txt' => 'test',
+        )
+    ))
 ));
 
 $env->apply();

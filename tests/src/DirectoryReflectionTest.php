@@ -145,4 +145,38 @@ class DirectoryReflectionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($dir->getExists());
     }
 
+    /**
+     * @covers CL\EnvBackup\DirectoryReflection::save
+     */
+    public function testSave()
+    {
+        $path = dirname(__FILE__).'/../test_dir5';
+
+        mkdir($path);
+        file_put_contents($path.'/test1.txt', 'asd');
+        mkdir($path.'/inner');
+        file_put_contents($path.'/inner/test2.txt', 'asd2');
+
+        $contents = array(
+            'file1.txt' => "test 1",
+            'dir1' => array(
+                'file2.txt' => "test 2",
+            ),
+        );
+
+        $dir = new DirectoryReflection($path, $contents);
+
+        $dir->save();
+
+        $this->assertFileNotExists($path.'/test1.txt');
+        $this->assertFileNotExists($path.'/inner/test2.txt');
+
+        $this->assertFileExists($path.'/file1.txt');
+        $this->assertFileExists($path.'/dir1/file2.txt');
+
+        unlink($path.'/dir1/file2.txt');
+        rmdir($path.'/dir1');
+        unlink($path.'/file1.txt');
+        rmdir($path);
+    }
 }
